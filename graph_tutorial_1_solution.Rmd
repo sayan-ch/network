@@ -91,8 +91,8 @@ Aren't the plots messy (like some nodes ate up the others)? Why is it so? Can yo
 
 ## Your Turn 1
 ```{r}
-#V(g)$size <- (Replace this part with some suitable function of strength(g) and remove #)
-#par(mar=c(0,0,0,0)); plot(g)
+V(g)$size <- 2*log(strength(g))+1  ##Experiment with the constants and the function to get nice plot
+par(mar=c(0,0,0,0)); plot(g)
 ```
 
 Did that work? If not, try some other function.
@@ -138,7 +138,14 @@ Include other in the dark side. Create a 'not messy' plot with the following fea
 * labels are small yet legible
 
 ```{r}
+dark_side=c(dark_side,other)
+V(g)$color[V(g)$name %in% dark_side]="blue"
+V(g)$color[V(g)$name %in% light_side]="yellow"
+V(g)$label=NA
+V(g)$label=ifelse(2*log(strength(g))+1>5,V(g)$name,NA)
 par(mar=c(0,0,0,0))
+plot(g,edge.curved=0.5, vertex.label.cex=0.75,vertex.label.color="black")
+legend("bottomleft",legend=c("Dark side", "Light side"),pch=21,pt.bg=c("blue","yellow"),pt.cex=2,bty="n")
 
 ```
 
@@ -182,7 +189,11 @@ modify the plot that you created in __Your Turn 2__ to incorporate the following
 * has a clean (low number of overlapping edges) layout (use any layout of your choice except tree) with OBI-WAN at the top center of the plot (HINT: Try to manipulate the coordinates for OBI-WAN manually),
 * add an appropriate title (how do you do that in `plot()`? )
 ```{r}
-
+E(g)$width <- log(E(g)$weight) + 1
+l <- layout_with_fr(g)
+l[V(g)$name=="OBI-WAN"]=c(mean(l[,1]),max(l[,2]+0.2))
+plot(g,edge.curved=0.5,layout=l, vertex.label.cex=0.75,vertex.label.color="black")
+legend("bottomleft",legend=c("Dark side", "Light side"),pch=21,pt.bg=c("blue","yellow"),pt.cex=2,bty="n")
 ```
 
 

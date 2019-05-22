@@ -99,9 +99,9 @@ g
 ```
 
 ```
-## IGRAPH 01f72a5 UNW- 22 60 -- 
+## IGRAPH ff6c73c UNW- 22 60 -- 
 ## + attr: name (v/c), id (v/n), weight (e/n)
-## + edges from 01f72a5 (vertex names):
+## + edges from ff6c73c (vertex names):
 ##  [1] R2-D2      --C-3PO       R2-D2      --LUKE       
 ##  [3] R2-D2      --OBI-WAN     R2-D2      --LEIA       
 ##  [5] R2-D2      --HAN         R2-D2      --CHEWBACCA  
@@ -130,7 +130,7 @@ V(g) # nodes
 ```
 
 ```
-## + 22/22 vertices, named, from 01f72a5:
+## + 22/22 vertices, named, from ff6c73c:
 ##  [1] R2-D2       CHEWBACCA   C-3PO       LUKE        DARTH VADER
 ##  [6] CAMIE       BIGGS       LEIA        BERU        OWEN       
 ## [11] OBI-WAN     MOTTI       TARKIN      HAN         GREEDO     
@@ -171,7 +171,7 @@ E(g) # edges
 ```
 
 ```
-## + 60/60 edges from 01f72a5 (vertex names):
+## + 60/60 edges from ff6c73c (vertex names):
 ##  [1] R2-D2      --C-3PO       R2-D2      --LUKE       
 ##  [3] R2-D2      --OBI-WAN     R2-D2      --LEIA       
 ##  [5] R2-D2      --HAN         R2-D2      --CHEWBACCA  
@@ -269,7 +269,7 @@ par(mar=c(0,0,0,0))
 plot(g)
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
 
 Let's see how we can improve this figure. To see all the available plotting options, you can check `?igraph.plotting`. Let's start by fixing some of these.
 
@@ -284,7 +284,7 @@ plot(g,
      edge.color="grey20") # change edge color to grey
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 Now imagine that we want to modify some of these plotting attributes so that they are function of network properties. For example, a common adjustment is to change the size of the nodes and node labels so that they match their `importance` (we'll come back to how to measure that later). Here, `strength` will correspond to the number of scenes they appear in. And we're only going to show the labels of character that appear in 10 or more scenes.
 
@@ -294,7 +294,7 @@ V(g)$size <- strength(g)
 par(mar=c(0,0,0,0)); plot(g)
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
 
 ```r
 #Suppose we want label only on nodes with strength above 50
@@ -302,16 +302,18 @@ V(g)$label <- ifelse(strength(g)>50,V(g)$name,NA)   # Look up for syntax and use
 par(mar=c(0,0,0,0));plot(g)
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-6-2.png)<!-- -->
 
 Aren't the plots messy (like some nodes ate up the others)? Why is it so? Can you modify `V(g)$size` so that each node strength is reflected in the plot without making it messy?
 
 ## Your Turn 1
 
 ```r
-#V(g)$size <- (Replace this part with some suitable function of strength(g) and remove #)
-#par(mar=c(0,0,0,0)); plot(g)
+V(g)$size <- 2*log(strength(g))+1  ##Experiment with the constants and the function to get nice plot
+par(mar=c(0,0,0,0)); plot(g)
 ```
+
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
 
 Did that work? If not, try some other function.
 
@@ -347,8 +349,10 @@ vertex_attr(g)
 ##  [1]  0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21
 ## 
 ## $size
-##  [1]  50  63  64 129  11   4  14  59   9   8  49   4  10  80   1   1   5
-## [18]   5   9  13   2   0
+##  [1]  8.824046  9.286269  9.317766 10.719625  5.795791  3.772589  6.278115
+##  [8]  9.155075  5.394449  5.158883  8.783641  3.772589  5.605170  9.764053
+## [15]  1.000000  1.000000  4.218876  4.218876  5.394449  6.129899  2.386294
+## [22]      -Inf
 ## 
 ## $label
 ##  [1] NA          "CHEWBACCA" "C-3PO"     "LUKE"      NA         
@@ -368,7 +372,7 @@ vertex_attr(g)
 par(mar=c(0,0,0,0)); plot(g)
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-8-1.png)<!-- -->
 
 ```r
 # what does %in% do?
@@ -395,7 +399,7 @@ legend(x=.75, y=.75, legend=c("Dark side", "Light side", "Other"),
        pch=21, pt.bg=c("red", "gold", "grey20"), pt.cex=2, bty="n") #What does everything inside legend() mean?
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 ## Your Turn 2
 Include other in the dark side. Create a 'not messy' plot with the following features:
@@ -408,8 +412,17 @@ Include other in the dark side. Create a 'not messy' plot with the following fea
 
 
 ```r
+dark_side=c(dark_side,other)
+V(g)$color[V(g)$name %in% dark_side]="blue"
+V(g)$color[V(g)$name %in% light_side]="yellow"
+V(g)$label=NA
+V(g)$label=ifelse(2*log(strength(g))+1>5,V(g)$name,NA)
 par(mar=c(0,0,0,0))
+plot(g,edge.curved=0.5, vertex.label.cex=0.75,vertex.label.color="black")
+legend("bottomleft",legend=c("Dark side", "Light side"),pch=21,pt.bg=c("blue","yellow"),pt.cex=2,bty="n")
 ```
+
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-10-1.png)<!-- -->
 
 
 ## Edge Properties
@@ -443,7 +456,7 @@ edge_attr(g)
 par(mar=c(0,0,0,0)); plot(g)
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-11-1.png)<!-- -->
 
 Up to now, everytime we run the `plot` function, the nodes appear to be in a different location. Why? Because it's running a probabilistic function trying to locate them in the optimal way possible.
 
@@ -462,7 +475,7 @@ plot(g, layout=layout_on_grid, main="Grid")
 plot(g, layout=layout_with_fr, main="Force-directed")
 ```
 
-![](graph_tutorial_1__visual_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 Note that each of these is actually just a matrix of (x,y) locations for each node.
 
@@ -474,28 +487,28 @@ l
 
 ```
 ##              [,1]        [,2]
-##  [1,]  0.01478392 -0.57102116
-##  [2,] -0.48075431 -0.49975765
-##  [3,] -0.14324142 -0.34822955
-##  [4,]  0.69260202 -0.90326792
-##  [5,]  0.23729985 -0.71649665
-##  [6,] -0.25185731 -0.79176826
-##  [7,] -0.52768854  0.87522208
-##  [8,] -0.37303858 -0.18217991
-##  [9,] -0.67856799  0.51576039
-## [10,] -0.98329043 -0.54305317
-## [11,] -0.39296588 -0.04964330
-## [12,]  0.06709337 -0.40495330
-## [13,] -0.66306630  0.74656835
-## [14,]  0.66090049 -0.72179266
-## [15,]  0.93162118 -0.27724766
-## [16,]  0.45015001 -0.97633726
-## [17,] -0.90583285 -0.33208784
-## [18,]  0.99085216 -0.07109654
-## [19,]  0.92471700 -0.44009195
-## [20,]  0.62032602 -0.40327234
-## [21,]  0.84169251 -0.63944986
-## [22,]  0.93429004 -0.39892115
+##  [1,] -0.73144158 -0.44748463
+##  [2,] -0.59705144  0.68589335
+##  [3,]  0.81744966  0.64388821
+##  [4,]  0.95198200 -0.71495651
+##  [5,]  0.30174525  0.73890953
+##  [6,]  0.03091355  0.12609728
+##  [7,] -0.36988307  0.10274455
+##  [8,]  0.87038681 -0.72332475
+##  [9,]  0.69301008 -0.42901944
+## [10,]  0.08507548 -0.38522722
+## [11,] -0.87814776  0.02656334
+## [12,] -0.50677333 -0.95626711
+## [13,]  0.62420511  0.34939897
+## [14,] -0.68658627 -0.35253707
+## [15,]  0.98687876  0.79471769
+## [16,]  0.63501978 -0.17516157
+## [17,] -0.38313182  0.06856815
+## [18,]  0.18338593 -0.23311330
+## [19,] -0.49930338  0.60806669
+## [20,]  0.85201082 -0.71586260
+## [21,] -0.40236618  0.78124550
+## [22,]  0.72207987 -0.93739281
 ```
 
 ## Your Turn 3
@@ -505,6 +518,15 @@ modify the plot that you created in __Your Turn 2__ to incorporate the following
 * has a clean (low number of overlapping edges) layout (use any layout of your choice except tree) with OBI-WAN at the top center of the plot (HINT: Try to manipulate the coordinates for OBI-WAN manually),
 * add an appropriate title (how do you do that in `plot()`? )
 
+```r
+E(g)$width <- log(E(g)$weight) + 1
+l <- layout_with_fr(g)
+l[V(g)$name=="OBI-WAN"]=c(mean(l[,1]),max(l[,2]+0.2))
+plot(g,edge.curved=0.5,layout=l, vertex.label.cex=0.75,vertex.label.color="black")
+legend("bottomleft",legend=c("Dark side", "Light side"),pch=21,pt.bg=c("blue","yellow"),pt.cex=2,bty="n")
+```
+
+![](graph_tutorial_1_solution_files/figure-html/unnamed-chunk-14-1.png)<!-- -->
 
 
 

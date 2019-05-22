@@ -1,6 +1,8 @@
 ---
 title: "Introduction to social network analysis with R (using `igraph` package)"
-output: html_document
+output: 
+  html_document:
+    keep_md: true
 ---
 
 ## Importing network data into R

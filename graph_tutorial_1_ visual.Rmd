@@ -87,9 +87,10 @@ par(mar=c(0,0,0,0));plot(g)
 
 ```
 
+## Your Turn 1
+
 Aren't the plots messy (like some nodes ate up the others)? Why is it so? Can you modify `V(g)$size` so that each node strength is reflected in the plot without making it messy?
 
-## Your Turn 1
 ```{r}
 #V(g)$size <- (Replace this part with some suitable function of strength(g) and remove #)
 #par(mar=c(0,0,0,0)); plot(g)

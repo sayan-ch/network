@@ -190,7 +190,7 @@ modify the plot that you created in __Your Turn 2__ to incorporate the following
 * add an appropriate title (how do you do that in `plot()`? )
 ```{r}
 E(g)$width <- log(E(g)$weight) + 1
-l <- layout_with_fr(g)
+l <- layout_as_star(g)
 l[V(g)$name=="OBI-WAN"]=c(mean(l[,1]),max(l[,2]+0.2))
 plot(g,edge.curved=0.5,layout=l, vertex.label.cex=0.75,vertex.label.color="black")
 legend("bottomleft",legend=c("Dark side", "Light side"),pch=21,pt.bg=c("blue","yellow"),pt.cex=2,bty="n")
